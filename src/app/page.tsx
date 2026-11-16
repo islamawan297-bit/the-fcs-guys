@@ -28,8 +28,8 @@ export default async function HomePage() {
   ]);
 
   const featuredArticle = articles.find(a => a.featured) || articles[0];
-  const secondaryArticles = articles.filter(a => a.id !== featuredArticle?.id).slice(0, 3);
-  const latestArticles = articles.slice(3, 6);
+  const secondaryArticles = articles.filter(a => a.id !== featuredArticle?.id).slice(0, 4);
+  const latestArticles = articles.filter(a => a.id !== featuredArticle?.id && !secondaryArticles.some(s => s.id === a.id)).slice(0, 4);
 
   return (
     <div className="space-y-12 sm:space-y-16">
@@ -69,7 +69,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {secondaryArticles.map((article) => (
               <ArticleCard key={article.id} article={article} variant="standard" />
             ))}

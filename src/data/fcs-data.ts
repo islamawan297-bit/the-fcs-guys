@@ -152,6 +152,81 @@ export const ARTICLES_DATA: Article[] = [
     featured: false,
     trending: false,
     tags: ['UAC', 'Tarleton State', 'Reclassification']
+  },
+  {
+    id: '7',
+    slug: 'all-american-defensive-end-sack-clinic-film-breakdown',
+    title: 'Film Room: How Elite Pass Rushers Are Dismantling FCS Pass Protections',
+    excerpt: 'A frame-by-frame breakdown of dip-and-rip pass rush angles, inside stunts, and edge manipulation from the premier quarterback hunters in the country.',
+    content: `
+      <p>Dominant edge play dictates November college football. When defensive coordinators can generate natural four-man pressure without sacrificing coverage integrity on the backend, offenses stall quickly.</p>
+      <h2>Attacking the Half-Man</h2>
+      <p>The difference between a hurry and a strip-sack comes down to pad level and bend around the offensive tackle. We look at three game films highlighting textbook edge execution.</p>
+    `,
+    category: 'Analysis',
+    conference: 'MVFC',
+    author: {
+      name: 'Derek Jenkins',
+      role: 'Staff Writer & Film Room Host',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200'
+    },
+    publishedAt: 'November 8, 2026',
+    readTime: '6 min read',
+    imageUrl: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=1000',
+    imageCaption: 'Defensive front aligning in tight formation ready to fire off the snap.',
+    featured: false,
+    trending: true,
+    tags: ['Film Room', 'Defense', 'Pass Rush', 'MVFC']
+  },
+  {
+    id: '8',
+    slug: 'red-zone-rpo-schemes-unlocking-championship-offenses',
+    title: 'X & O Breakdown: Red Zone Run-Pass Options That Unbalanced Defenses This Fall',
+    excerpt: 'Examining the glance routes and third-level safety conflicts making high-scoring FCS offenses lethal inside the 20-yard line.',
+    content: `
+      <p>Space contracts in the red zone, but modern spread coordinators continue to stress defensive alignments with pre-snap motion and dynamic RPO reads.</p>
+      <h2>Putting the Nickel in Conflict</h2>
+      <p>By attaching quick slant tags to split-zone run concepts, quarterbacks consistently exploit vacated second-level space the second linebackers bite downhill against the run.</p>
+    `,
+    category: 'Analysis',
+    conference: 'Big Sky',
+    author: {
+      name: 'Garrett Vance',
+      role: 'Senior FCS Postseason Analyst',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'
+    },
+    publishedAt: 'November 7, 2026',
+    readTime: '5 min read',
+    imageUrl: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&q=80&w=1000',
+    imageCaption: 'Team huddling to install key schematic adjustments on the sideline.',
+    featured: false,
+    trending: false,
+    tags: ['Film Room', 'Offense', 'RPO', 'Tactics']
+  },
+  {
+    id: '9',
+    slug: 'special-teams-field-position-hidden-game-changers',
+    title: 'The Hidden Third: Game-Changing Special Teams Returns & Coverage Units',
+    excerpt: 'Detailed video review of block schemes and gunner techniques sparking momentum swings and securing critical late-season victories.',
+    content: `
+      <p>Championship margins are razor thin. Often, the deciding factor in frigid November contests is a pinned punt inside the five-yard line or an explosive kickoff return.</p>
+      <h2>Lane Discipline and Hang Time</h2>
+      <p>Coverage units must stay in their allotted lanes while directional punting eliminates return lanes across the boundary.</p>
+    `,
+    category: 'Analysis',
+    conference: 'CAA',
+    author: {
+      name: 'Colton Bradley',
+      role: 'Midwest Gridiron Analyst',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200'
+    },
+    publishedAt: 'November 6, 2026',
+    readTime: '4 min read',
+    imageUrl: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?auto=format&fit=crop&q=80&w=1000',
+    imageCaption: 'Kicker setting up for a high-pressure field goal attempt in the clutch.',
+    featured: false,
+    trending: false,
+    tags: ['Special Teams', 'Film Room', 'CAA']
   }
 ];
 
