@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { createPublicSupabaseClient } from '@/lib/supabase/public';
 import { ARTICLES_DATA, TOP_25_RANKINGS, CONFERENCES_DATA, PLAYOFF_PROJECTIONS, PLAYOFF_MATCHUPS } from '@/data/fcs-data';
 import { Article, TeamRanking, ConferenceInfo, PlayoffProjection, PlayoffMatchup } from '@/types';
 
@@ -71,7 +71,7 @@ export async function getDynamicPublishedArticles(options?: {
 }): Promise<Article[]> {
   if (isConfiguredSupabase()) {
     try {
-      const supabase = await createServerSupabaseClient();
+      const supabase = createPublicSupabaseClient();
       let query = supabase
         .from('articles')
         .select(`
@@ -140,7 +140,7 @@ export async function getDynamicPublishedArticles(options?: {
 export async function getDynamicArticleBySlug(slug: string): Promise<Article | null> {
   if (isConfiguredSupabase()) {
     try {
-      const supabase = await createServerSupabaseClient();
+      const supabase = createPublicSupabaseClient();
       const { data, error } = await supabase
         .from('articles')
         .select(`
@@ -201,7 +201,7 @@ export async function getDynamicArticleBySlug(slug: string): Promise<Article | n
 export async function getDynamicTop25Rankings(): Promise<TeamRanking[]> {
   if (isConfiguredSupabase()) {
     try {
-      const supabase = await createServerSupabaseClient();
+      const supabase = createPublicSupabaseClient();
       const { data: edition } = await supabase
         .from('ranking_editions')
         .select(`
@@ -256,7 +256,7 @@ export async function getDynamicTop25Rankings(): Promise<TeamRanking[]> {
 export async function getDynamicConferences(): Promise<ConferenceInfo[]> {
   if (isConfiguredSupabase()) {
     try {
-      const supabase = await createServerSupabaseClient();
+      const supabase = createPublicSupabaseClient();
       const { data, error } = await supabase
         .from('conferences')
         .select(`
@@ -334,7 +334,7 @@ export async function getDynamicPlayoffs(): Promise<{
 export async function getAdminDashboardStats() {
   if (isConfiguredSupabase()) {
     try {
-      const supabase = await createServerSupabaseClient();
+      const supabase = createPublicSupabaseClient();
       const [
         { count: publishedArticlesCount },
         { count: draftsCount },
