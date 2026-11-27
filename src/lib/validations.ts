@@ -5,15 +5,15 @@ export const ArticleSchema = z.object({
   slug: z.string().min(3).regex(/^[a-z0-9-]+$/, 'Slug must be lower-case alphanumeric with dashes'),
   excerpt: z.string().min(10, 'Excerpt must be at least 10 characters').max(500),
   content: z.string().min(20, 'Content must be at least 20 characters'),
-  category_id: z.string().uuid(),
-  conference_id: z.string().uuid().optional().nullable(),
-  featured_image_url: z.string().url().optional().nullable(),
-  image_caption: z.string().max(250).optional().nullable(),
+  category_id: z.string().uuid('Please select a valid category'),
+  conference_id: z.string().uuid().optional().nullable().or(z.literal('')).transform(val => val === '' ? null : val),
+  featured_image_url: z.string().url('Invalid image URL format').optional().nullable().or(z.literal('')).transform(val => val === '' ? null : val),
+  image_caption: z.string().max(250).optional().nullable().or(z.literal('')).transform(val => val === '' ? null : val),
   read_time_minutes: z.number().int().min(1).max(60).default(4),
   status: z.enum(['draft', 'review', 'published', 'archived']).default('draft'),
   is_featured: z.boolean().default(false),
   is_trending: z.boolean().default(false),
-  published_at: z.string().datetime().optional().nullable(),
+  published_at: z.string().datetime().optional().nullable().or(z.literal('')).transform(val => val === '' ? null : val),
 });
 
 export const CategorySchema = z.object({

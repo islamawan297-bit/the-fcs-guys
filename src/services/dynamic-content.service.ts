@@ -91,6 +91,7 @@ export async function getDynamicPublishedArticles(options?: {
           profiles (full_name, role, avatar_url)
         `)
         .eq('status', 'published')
+        .lte('published_at', new Date().toISOString())
         .order('published_at', { ascending: false });
 
       if (options?.limit) {
@@ -161,6 +162,7 @@ export async function getDynamicArticleBySlug(slug: string): Promise<Article | n
         `)
         .eq('slug', slug)
         .eq('status', 'published')
+        .lte('published_at', new Date().toISOString())
         .single();
 
       if (!error && data) {

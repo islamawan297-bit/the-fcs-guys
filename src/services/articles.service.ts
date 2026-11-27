@@ -68,6 +68,100 @@ export async function getArticleBySlug(slug: string) {
   return data;
 }
 
+export async function getArticlesForAdmin(options?: {
+  status?: string;
+  search?: string;
+  categoryId?: string;
+}) {
+  await requireStaffSession();
+  const supabase = await createServerSupabaseClient();
+
+  let query = supabase
+    .from('articles')
+    .select(`
+      id,
+      title,
+      slug,
+      excerpt,
+      content,
+      featured_image_url,
+      image_caption,
+      read_time_minutes,
+      status,
+      is_featured,
+      is_trending,
+      published_at,
+      created_at,
+      updated_at,
+      category_id,
+      conference_id,
+      categories (id, name, slug),
+      conferences (id, name, short_name, code),
+      profiles (id, full_name, role, avatar_url)
+    `)
+    .order('created_at', { ascending: false });
+
+  if (options?.status && options.status !== 'all') {
+    query = query.eq('status', options.status);
+  }
+
+  if (options?.categoryId && options.categoryId !== 'all') {
+    query = query.eq('category_id', options.categoryId);
+  }
+
+  if (options?.search) {
+    query = query.ilike('title', `%${options.search}%`);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data;
+}
+
+export async function getArticleById(id: string) {
+  await requireStaffSession();
+  const supabase = await createServerSupabaseClient();
+
+  const { data, error } = await supabase
+    .from('articles')
+    .select(`
+      id,
+      title,
+      slug,
+      excerpt,
+      content,
+      featured_image_url,
+      image_caption,
+      read_time_minutes,
+      status,
+      is_featured,
+      is_trending,
+      published_at,
+      created_at,
+      updated_at,
+      category_id,
+      conference_id,
+      categories (id, name, slug),
+      conferences (id, name, short_name, code),
+      profiles (id, full_name, role, avatar_url)
+    `)
+    .eq('id', id)
+    .single();
+
+  if (error) return null;
+  return data;
+}
+
+export async function checkSlugAvailability(slug: string, currentArticleId?: string) {
+  const supabase = await createServerSupabaseClient();
+  let query = supabase.from('articles').select('id').eq('slug', slug);
+  if (currentArticleId) {
+    query = query.neq('id', currentArticleId);
+  }
+  const { data } = await query;
+  return !data || data.length === 0;
+}
+
 export async function createArticle(input: z.infer<typeof ArticleSchema>) {
   // Enforce staff session & permission verification on server
   const { user } = await requireStaffSession();
@@ -92,12 +186,55 @@ export async function updateArticle(articleId: string, input: Partial<z.infer<ty
   await requireStaffSession();
   const supabase = await createServerSupabaseClient();
 
+  // If status is being set to published and published_at is not provided, set published_at to now()
+  const payload: Record<string, unknown> = {
+    ...input,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (input.status === 'published') {
+    payload.published_at = input.published_at || new Date().toISOString();
+  } else if (input.status === 'draft') {
+    payload.published_at = null;
+  }
+
   const { data, error } = await supabase
     .from('articles')
-    .update({
-      ...input,
-      updated_at: new Date().toISOString(),
-    })
+    .update(payload)
+    .eq('id', articleId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteArticle(articleId: string) {
+  await requireStaffSession();
+  const supabase = await createServerSupabaseClient();
+
+  const { error } = await supabase
+    .from('articles')
+    .delete()
+    .eq('id', articleId);
+
+  if (error) throw error;
+  return { success: true };
+}
+
+export async function toggleArticleStatus(articleId: string, newStatus: 'published' | 'draft') {
+  await requireStaffSession();
+  const supabase = await createServerSupabaseClient();
+
+  const updateData: { status: string; published_at: string | null; updated_at: string } = {
+    status: newStatus,
+    published_at: newStatus === 'published' ? new Date().toISOString() : null,
+    updated_at: new Date().toISOString(),
+  };
+
+  const { data, error } = await supabase
+    .from('articles')
+    .update(updateData)
     .eq('id', articleId)
     .select()
     .single();
